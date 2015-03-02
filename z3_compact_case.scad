@@ -1,5 +1,6 @@
 $fn = 30;
 
+// set this to some multiple of your nozzle width
 shellWidth = 1.2;
 wallWidth = shellWidth;
 
@@ -13,18 +14,27 @@ length = 128.6;
 width = 66;
 depth = 9;
 
+// we're trying to make it as big as the phone plus a wall all around
 xscale = (length+2*wallWidth)/length;
 yscale = (width+2*wallWidth)/width;
 zscale = (depth+2*wallWidth)/depth;
 
+// I'm really not sure about these. I tried to measure it with calipers and
+// work it out, but it is tricky.
+cornerRadius = 3.5;
+edgeRadius = 7;
 
-cornerRadius = 3.5; // guessing. tricky to measure.
-edgeRadius = 7; //guessing here..
-
+// how much to leave on the bottom around the edges. Trying to go as strong as
+// possible without overlapping the camera lens.
 edge = 8;
-corner = 16;
-lip = 2.0;
 
+// how much to leave at the top and bottom corners
+corner = 16;
+
+// how much to leave above and below the cutouts
+lip = 2;
+
+// just for convenience
 outsideLength = length*xscale;
 outsideWidth = width*yscale;
 outsideDepth = depth*zscale;
@@ -45,6 +55,7 @@ cWidth = 10;
 cHeight = pHeight;
 
 
+// a three dimensional rounded rectangle
 module rounded(l, w, d, r) {
   // i for inner
   il = l - 2*r;
@@ -74,7 +85,6 @@ module rounded(l, w, d, r) {
 }
 
 module phone() {
-  //color("red")
   up = (edgeRadius*2+0.1)/2 - depth/2;
   translate([0, 0, -up])
   intersection() {
@@ -123,7 +133,7 @@ module cameraCutout() {
 
 module cover() {
   difference() {
-    // make the outer shell    
+    // make the outer shell
     scale([xscale, yscale, zscale])
     phone();
 
@@ -133,10 +143,10 @@ module cover() {
 
     // cut out the back side
     bottomCutout();
-    
+
     // cut off the part above the screen
     topCutout();
-    
+
     // cut out the vertical top+bottom
     verticalCutout();
 
@@ -145,21 +155,17 @@ module cover() {
 
     // cut out the camera button
     cameraCutout();
-    
+
     // cut out the left+right
-     /*
+    /*
+    // (this was from when I wanted to do the same as for top+bottom)
     hLength = length*xscale - 2*corner;
     hWidth = width*yscale + 10;
     hHeight = depth*zscale + 1;
     translate([corner, 0, wallWidth + lip])
     cube([hLength, hWidth, hHeight]);
     */
-    
-    // TODO: add a crossbar for strength?
   }
-
-
-
 }
 
 translate([-length*xscale/2, -width*yscale/2, 0])
