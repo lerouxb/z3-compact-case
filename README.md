@@ -5,20 +5,24 @@ left side covered up, so you'll have to take the cover off to plug it into a
 charger and if you actually have the charging dock you'll have to make some
 modifications. Sorry!
 
-The entire model is built in OpenSCAD and it is all parametric and well
-documented, so it should be easy to modify or to use as the basis of a case for
-probably just about any other smartphone.
+The model is built in OpenSCAD and it is all parametric and well documented, so
+it should be easy to modify or to use as the basis of a case for probably just
+about any other smartphone.
 
-My printer's nozzle is 0.4mm, so I made all the walls 1.2mm, which is 3 layers
-thick. If you're printing with strong plastic, you could maybe make that only
-two layers and if you have a different nozzle size you might want to adjust the
-wall width in the model first.
+My printer's nozzle is 0.4mm, so I made all the walls 0.8mm, which is 2 layers
+thick. I had some problems with things snapping when printed with cheap PLA
+early on, so you might have to make that thicker, but then the power button
+might be a bit too recessed. If you're printing with strong plastic, you should
+be able to get away with just two layers. If you have a different nozzle size
+you might want to adjust the wall width in the model accordingly.
 
 I made the borders on the bottom rather wide too. All of this was in an effort
 to get it as strong as possible. At first I tried to just have about 1.5cm of
 plastic in either direction on every corner with the rest all cut away, but the
 corners kept breaking off and eventually I gave up and left as much of the
-sides intact as possible.
+sides intact as possible. I also bumped my printing temperature a bit higher
+than I usually print to try and stop the layers from pulling apart when putting
+the case on or taking it off.
 
 Warping shouldn't be much of an issue, because there's relatively little in
 contact with the print bed and lots of space for things to stretch/contract

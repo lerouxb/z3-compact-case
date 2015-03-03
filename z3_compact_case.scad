@@ -11,7 +11,7 @@ wallWidth = shellWidth;
 
 // tweaked larger a bit
 length = 128.6;
-width = 66.5;
+width = 66.3;
 depth = 9;
 
 // we're trying to make it as big as the phone plus a wall all around
@@ -26,7 +26,7 @@ edgeRadius = 7;
 
 // how much to leave on the bottom around the edges. Trying to go as strong as
 // possible without overlapping the camera lens.
-edge = 8;
+edge = 7;
 
 // how much to leave at the top and bottom corners
 corner = 15;
@@ -50,12 +50,13 @@ vWidth = width*yscale - 2*corner;
 vHeight = (outsideDepth - (lip+wallWidth))+0.1;
 
 // power+volume buttons
-pLength = 35;
+pLength = 32;
 pWidth = edgeRadius*2+1;
-pHeight = vHeight;
+//pHeight = vHeight;
+pHeight = depth*zscale - (lip+wallWidth)*2;
 
 // camera button
-cOffset = 17 + wallWidth; // still not 100%
+cOffset = 17.5 + wallWidth; // still not 100%
 cLength = 10;
 cWidth = edgeRadius*2+1;
 cHeight = depth*zscale - (lip+wallWidth)*2;
@@ -122,7 +123,7 @@ module bottomCutout() {
 module topCutout() {
   tLength = length*xscale+2*wallWidth;
   tWidth = width*yscale+2*wallWidth;
-  translate([0, 0, (depth-wallWidth)*zscale-0.1])
+  translate([0, 0, (depth-wallWidth)*zscale-0.001])
   cube([tLength, tWidth, 10]);
 }
 
@@ -133,8 +134,8 @@ module verticalCutout() {
 
 module powerCutout() {
   translate([outsideLength/2 - pLength/2, outsideWidth - pWidth/2, wallWidth+lip])
-  //cube([pLength, pWidth, pHeight]);
-  roundedSlab(l=pLength, w=pWidth, d=pHeight, e=edgeRadius);
+  cube([pLength, pWidth, pHeight]);
+  //roundedSlab(l=pLength, w=pWidth, d=pHeight, e=edgeRadius);
 }
 
 module cameraCutout() {
