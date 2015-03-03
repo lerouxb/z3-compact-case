@@ -1,7 +1,7 @@
 $fn = 30;
 
 // set this to some multiple of your nozzle width
-shellWidth = 1.2;
+shellWidth = 0.8;
 wallWidth = shellWidth;
 
 // actual dimensions
@@ -11,7 +11,7 @@ wallWidth = shellWidth;
 
 // tweaked larger a bit
 length = 128.6;
-width = 66;
+width = 66.5;
 depth = 9;
 
 // we're trying to make it as big as the phone plus a wall all around
@@ -29,10 +29,10 @@ edgeRadius = 7;
 edge = 8;
 
 // how much to leave at the top and bottom corners
-corner = 16;
+corner = 15;
 
 // how much to leave above and below the cutouts
-lip = 2;
+lip = 1.5;
 
 // just for convenience
 outsideLength = length*xscale;
@@ -43,16 +43,22 @@ outsideDepth = depth*zscale;
 bottomCutoutLength = length - edge*2;
 bottomCutoutWidth = width - edge*2;
 
+// the cutouts at the top and bottom where the headphone jack and microphones
+// are. Too many little things, so just make it symmetrical
+vLength = length*xscale + 10;
+vWidth = width*yscale - 2*corner;
+vHeight = (outsideDepth - (lip+wallWidth))+0.1;
+
 // power+volume buttons
-pLength = 30;
-pWidth = 10;
-pHeight = depth*zscale - (lip+wallWidth)*2;
+pLength = 35;
+pWidth = edgeRadius*2+1;
+pHeight = vHeight;
 
 // camera button
 cOffset = 17 + wallWidth; // still not 100%
 cLength = 10;
-cWidth = 10;
-cHeight = pHeight;
+cWidth = edgeRadius*2+1;
+cHeight = depth*zscale - (lip+wallWidth)*2;
 
 
 // a three dimensional rounded rectangle
@@ -61,7 +67,6 @@ module rounded(l, w, d, r) {
   il = l - 2*r;
   iw = w - 2*r;
 
-  //translate([-l/2, -w/2, 0])
   union() {
     translate([r, r, 0]) {
       translate([-r, 0, 0])
@@ -84,25 +89,34 @@ module rounded(l, w, d, r) {
   }
 }
 
-module phone() {
-  up = (edgeRadius*2+0.1)/2 - depth/2;
+module roundedSlab(l, w, d, e) {
+  // This routine is a bit fiddly. l and w each have to be bigger than e*2 and
+  // I think d has to be smaller.
+  up = (e*2+0.1)/2 - d/2;
   translate([0, 0, -up])
   intersection() {
-    translate([edgeRadius, edgeRadius, edgeRadius])
+    translate([e, e, e])
     minkowski() {
-      //rounded(length-edgeRadius*2, width-edgeRadius*2, 0.1, cornerRadius);
-      cube([length-edgeRadius*2, width-edgeRadius*2, 0.1]);
-      sphere(edgeRadius);
+      cube([l-e*2, w-e*2, 0.1]);
+      sphere(e);
     }
     // cut just the phone part out
     translate([0, 0, up])
-    cube([length, width, depth]);
+    cube([l, w, d]);
   }
+}
+
+module phone() {
+  roundedSlab(l=length, w=width, d=depth, e=edgeRadius);
 }
 
 module bottomCutout() {
   translate([edge+wallWidth, edge+wallWidth, -0.1])
-  rounded(bottomCutoutLength, bottomCutoutWidth, wallWidth+1, cornerRadius);
+  rounded(
+    l=bottomCutoutLength,
+    w=bottomCutoutWidth,
+    d=wallWidth+1,
+    r=cornerRadius);
 }
 
 module topCutout() {
@@ -113,17 +127,14 @@ module topCutout() {
 }
 
 module verticalCutout() {
-  // (too many little things, so just make it symmetrical)
-  vLength = length*xscale + 10;
-  vWidth = width*yscale - 2*corner;
-  vHeight = depth*zscale + 1;
-  translate([0, corner, wallWidth + lip])
-  cube([vLength, vWidth, vHeight]);
+  translate([-5, corner, wallWidth + lip])
+  roundedSlab(l=vLength, w=vWidth, d=vHeight, e=edgeRadius);
 }
 
 module powerCutout() {
   translate([outsideLength/2 - pLength/2, outsideWidth - pWidth/2, wallWidth+lip])
-  cube([pLength, pWidth, pHeight]);
+  //cube([pLength, pWidth, pHeight]);
+  roundedSlab(l=pLength, w=pWidth, d=pHeight, e=edgeRadius);
 }
 
 module cameraCutout() {
@@ -168,6 +179,7 @@ module cover() {
   }
 }
 
-translate([-length*xscale/2, -width*yscale/2, 0])
+//translate([-length*xscale/2, -width*yscale/2, 0])
 cover();
 //phone();
+//powerCutout();
