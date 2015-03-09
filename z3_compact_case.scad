@@ -180,7 +180,7 @@ module cover() {
   }
 }
 
-//translate([-length*xscale/2, -width*yscale/2, 0])
+translate([-length*xscale/2, -width*yscale/2, 0])
 cover();
 //phone();
 //powerCutout();

@@ -1,9 +1,11 @@
 # z3-compact-case
 
-A 3D printable case for a Sony Xperia Z3 Compact smartphone. I left the entire
-left side covered up, so you'll have to take the cover off to plug it into a
-charger and if you actually have the charging dock you'll have to make some
-modifications. Sorry!
+A 3D printable case for a Sony Xperia Z3 Compact smartphone. See the [thing on
+thingiverse](http://www.thingiverse.com/thing:714570) for photos.
+
+I left the entire left side covered up, so you'll have to take the cover off to
+plug it into a charger and if you actually have the charging dock you'll have
+to make some modifications. Sorry!
 
 The model is built in OpenSCAD and it is all parametric and well documented, so
 it should be easy to modify or to use as the basis of a case for probably just
