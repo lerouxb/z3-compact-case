@@ -1,4 +1,4 @@
-$fn = 30;
+$fn = 200;
 
 // set this to some multiple of your nozzle width
 shellWidth = 0.8;
@@ -10,9 +10,9 @@ wallWidth = shellWidth;
 //depth = 8.4;
 
 // tweaked larger a bit
-length = 128.6;
-width = 66.3;
-depth = 9;
+length = 128.3;
+width = 66.2;
+depth = 9.1;
 
 // we're trying to make it as big as the phone plus a wall all around
 xscale = (length+2*wallWidth)/length;
@@ -47,7 +47,8 @@ bottomCutoutWidth = width - edge*2;
 // are. Too many little things, so just make it symmetrical
 vLength = length*xscale + 10;
 vWidth = width*yscale - 2*corner;
-vHeight = (outsideDepth - (lip+wallWidth))+0.1;
+//vHeight = (outsideDepth - (lip+wallWidth))+0.1;
+vHeight = depth*zscale - (lip+wallWidth)*2;
 
 // power+volume buttons
 pLength = 32;
@@ -121,15 +122,31 @@ module bottomCutout() {
 }
 
 module topCutout() {
+  /*
   tLength = length*xscale+2*wallWidth;
   tWidth = width*yscale+2*wallWidth;
   translate([0, 0, (depth-wallWidth)*zscale-0.001])
   cube([tLength, tWidth, 10]);
+  */
+
+  topEdge = 2*wallWidth;
+  topCutoutLength = length - topEdge*2;
+  topCutoutWidth = width - topEdge*2;
+
+  translate([topEdge+wallWidth, topEdge+wallWidth, outsideDepth-wallWidth-0.1])
+  rounded(
+    l=topCutoutLength,
+    w=topCutoutWidth,
+    d=wallWidth+1,
+    r=cornerRadius+2);
 }
 
 module verticalCutout() {
-  translate([-5, corner, wallWidth + lip])
-  roundedSlab(l=vLength, w=vWidth, d=vHeight, e=edgeRadius);
+  translate([0, corner, wallWidth + lip])
+  cube([vLength, vWidth, vHeight]);
+
+  //translate([-5, corner, wallWidth + lip])
+  //roundedSlab(l=vLength, w=vWidth, d=vHeight, e=edgeRadius);
 }
 
 module powerCutout() {
